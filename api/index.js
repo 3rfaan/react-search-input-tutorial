@@ -1,7 +1,8 @@
 import express from "express";
 const app = express();
-import { Users } from "./users.js";
 import cors from "cors";
+
+import { Users } from "./users.js";
 
 app.use(cors());
 
@@ -16,7 +17,10 @@ app.get("/", (req, res) => {
     );
   };
 
-  q ? res.json(search(Users).slice(0, 10)) : res.json(Users.slice(0, 10));
+  const maxResults = 10;
+  const searchResults = search(Users).splice(0, maxResults);
+
+  return res.status(200).json(searchResults);
 });
 
-app.listen(5000, () => console.log("API is working!"));
+app.listen(5005, () => console.log("API is working!"));
